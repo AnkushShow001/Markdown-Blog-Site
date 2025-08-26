@@ -27,7 +27,7 @@
     const postsContainer = document.getElementById('postsContainer');
     const markdownInput = document.getElementById('markdownInput');
 
-    // Load posts from localStorage
+    
     function loadPosts() {
       postsContainer.innerHTML = '';
       const posts = JSON.parse(localStorage.getItem('posts') || '[]');
@@ -39,19 +39,20 @@
       });
     }
 
-    // Save a new post
+   
     function savePost() {
       const post = markdownInput.value.trim();
       if (!post) return alert('Write something first!');
       const posts = JSON.parse(localStorage.getItem('posts') || '[]');
-      posts.unshift(post); // Add new post at the top
+      posts.unshift(post); 
       localStorage.setItem('posts', JSON.stringify(posts));
       markdownInput.value = '';
       loadPosts();
     }
 
-    // Initial load
+    
     loadPosts();
   </script>
 </body>
 </html>
+
