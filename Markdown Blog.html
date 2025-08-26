@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Markdown Blog</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css/github-markdown.min.css">
+  <style>
+    body { font-family: Arial, sans-serif; background: #f5f5f5; padding: 20px; }
+    h1 { text-align: center; }
+    textarea { width: 100%; height: 150px; margin-bottom: 10px; }
+    button { padding: 10px 20px; margin-bottom: 20px; cursor: pointer; }
+    .post { background: white; padding: 15px; border-radius: 10px; margin-bottom: 15px; }
+  </style>
+</head>
+<body>
+  <h1>📝 Markdown Blog</h1>
+  <textarea id="markdownInput" placeholder="Write your post in Markdown..."></textarea>
+  <br>
+  <button onclick="savePost()">Save Post</button>
+
+  <h2>All Posts</h2>
+  <div id="postsContainer"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script>
+    const postsContainer = document.getElementById('postsContainer');
+    const markdownInput = document.getElementById('markdownInput');
+
+    // Load posts from localStorage
+    function loadPosts() {
+      postsContainer.innerHTML = '';
+      const posts = JSON.parse(localStorage.getItem('posts') || '[]');
+      posts.forEach((post, index) => {
+        const div = document.createElement('div');
+        div.className = 'post markdown-body';
+        div.innerHTML = marked.parse(post);
+        postsContainer.appendChild(div);
+      });
+    }
+
+    // Save a new post
+    function savePost() {
+      const post = markdownInput.value.trim();
+      if (!post) return alert('Write something first!');
+      const posts = JSON.parse(localStorage.getItem('posts') || '[]');
+      posts.unshift(post); // Add new post at the top
+      localStorage.setItem('posts', JSON.stringify(posts));
+      markdownInput.value = '';
+      loadPosts();
+    }
+
+    // Initial load
+    loadPosts();
+  </script>
+</body>
+</html>
